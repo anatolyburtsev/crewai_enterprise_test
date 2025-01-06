@@ -1,0 +1,28 @@
+---
+search_venues_task:
+  description: Conduct a search for potential team event venues and activities in
+    {location}, considering the specified budget and limitations such as wheelchair
+    accessibility, food allergies, or outdoor-only events.
+  expected_output: A list of potential venues and activities that fit the specified
+    criteria, including basic details like name and location.
+  async_execution: false
+  agent: venue_search_expert
+extract_event_details_task:
+  description: Extract detailed information about each event option gathered, focusing
+    on price, exact location, and event description.
+  expected_output: A detailed report of event options including prices, exact locations,
+    and descriptions.
+  async_execution: false
+  agent: detail_extraction_specialist
+  context:
+  - search_venues_task
+evaluate_and_suggest_events_task:
+  description: Analyze the detailed event options and evaluate them against the provided
+    limitations such as accessibility and dietary needs. Provide several suggestions
+    with reasons why each is a good choice for the team event.
+  expected_output: A set of recommended event options that align with the specified
+    budget and limitations, along with justifications for each suggestion.
+  async_execution: false
+  agent: event_evaluation_consultant
+  context:
+  - extract_event_details_task
